@@ -1,5 +1,6 @@
 const { Profile, File } = require("../models/profileModel");
-const { validEmail, hashPassword,generateAccessToken,sendEmail,sendSms,generateOTP} = require("../utilities/vaildation");
+const { validEmail, hashPassword/*generateAccessToken*/,sendEmail,sendSms,generateOTP} = require("../utilities/vaildation");
+const {generateToken}=require("../utilities/tokenGenerator")
 require('dotenv').config();//import env
 const bcrypt = require('bcrypt');
 //create profile
@@ -164,17 +165,25 @@ const login = async (req, res) => {
                 }
             });
         }
-        
-        // Generate an access token
-        const accessToken = generateAccessToken(email);
-        console.log(accessToken)
+        //Generate access token with agora
+        const token =generateToken(email);
         return res.status(200).json({
-            code: 1,
-            message: "Login successful",
-            data: {
-                accessToken: accessToken
-            }
-        });
+              code: 1,
+              message: "Login successful",
+              data: {
+                  token:token
+              }
+          });
+        // Generate an access token
+        // const accessToken = generateAccessToken(email);
+        // console.log(accessToken)
+        // return res.status(200).json({
+        //     code: 1,
+        //     message: "Login successful",
+        //     data: {
+        //         accessToken: accessToken
+        //     }
+        // });
         
     } catch (error) {
         console.error("Error", error);
