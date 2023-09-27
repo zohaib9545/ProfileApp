@@ -4,6 +4,7 @@ const upload = require("../config/config");
 
 const { createProfile } = require('../controllers/profileController');
 const { login } = require('../controllers/profileController');
+const { logout } = require('../controllers/profileController');
 const { deleteProfile } = require('../controllers/profileController');
 const { readData } = require('../controllers/profileController');
 const { changePassword  } = require('../controllers/profileController');
@@ -14,6 +15,7 @@ const { multipleUploadFile} = require('../controllers/profileController');
 
 router.post("/profile", createProfile);
 router.post("/login", login);
+router.get("/logout", logout);
 router.delete("/delete",deleteProfile)
 router.get('/read',readData)
 router.post("/changepassword",changePassword );

@@ -156,6 +156,7 @@ const login = async (req, res) => {
         }
 
         const passwordMatch = await bcrypt.compare(password, checkEmail.password);
+
         if (!passwordMatch) {
             return res.status(401).json({
                 code: 0,
@@ -195,6 +196,38 @@ const login = async (req, res) => {
             }
         });
     }
+};
+// Logout function
+const logout = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const checkEmail = await Profile.findOne({ email });
+    if (!checkEmail) {
+        return res.status(404).json({
+            code: 0,
+            message: "Email not found",
+            data: {
+                message: "Enter valid email"
+            }
+        });
+    }
+    return res.status(200).json({
+      code: 1,
+      message: "Logout successful",
+      data: {
+        message: "User has been successfully logged out",
+      },
+    });
+  } catch (error) {
+    console.error("Error", error);
+    return res.status(500).json({
+      code: 0,
+      message: "Something went wrong",
+      data: {
+        message: "Something went wrong",
+      },
+    });
+  }
 };
 
 // Read profile data
@@ -548,6 +581,7 @@ const singleUploadFile = async (req, res) => {
 module.exports = {
     createProfile,
     login,
+    logout,
     readData,
     changePassword,
     forgetPassword,
